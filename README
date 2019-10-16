@@ -1,0 +1,3 @@
+Requires GLM, GLFW3 and Vulkan (Duh)
+
+There is nothing to set it for you, you're on you own. (CMake might come at some point)
