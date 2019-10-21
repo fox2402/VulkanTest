@@ -1,7 +1,0 @@
-cmake_minimum_required(VERSION 3.9)
-project(VulkanTest)
-
-
-set(VTEST_SRC)
-
-add_executable(vtest src/main.cpp)
