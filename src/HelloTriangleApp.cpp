@@ -3,13 +3,25 @@
 
 #include <vulkan/vulkan.h>
 
+#include <vector>
 #include <iostream>
 #include <stdexcept>
 #include <functional>
 #include <cstdlib>
+#include <cstring>
 
 const int WIDTH = 800;
 const int HEIGHT = 600;
+
+const std::vector<const char*> validationLayers = {
+	"VK_LAYER_KHRONOS_validation"
+};
+
+#ifdef NDEBUG
+const bool enableValidationLayers = false;
+#else
+const bool enableValidationLayers = true;
+#endif
 
 class HelloTriangleApplication {
 public:
@@ -23,11 +35,40 @@ public:
 private:
 	GLFWwindow* window;
 	VkInstance instance;
+
+	bool checkValidationLayerSupport() {
+		uint32_t layerCount;
+		vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
+
+		std::vector<VkLayerProperties> availableLayers(layerCount);
+		vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
+		for (const char* layerName : validationLayers) {
+			bool layerFound = false;
+
+			for (const auto& layerProperties : availableLayers) {
+				if (strcmp(layerName, layerProperties.layerName) == 0) {
+					layerFound = true;
+					break;
+				}
+			}
+
+			if (!layerFound) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+
 	void initVulkan() {
 		createInstance();
 	}
 
 	void createInstance() {
+		if (enableValidationLayers && !checkValidationLayerSupport()) {
+			throw std::runtime_error("validation layers requested, but not available!");
+		}
 		VkApplicationInfo appInfo = {};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
 		appInfo.pApplicationName = "Hello Triangle";
@@ -46,7 +87,15 @@ private:
 
 		createInfo.enabledExtensionCount = glfwExtensionCount;
 		createInfo.ppEnabledExtensionNames = glfwExtensions;
-		createInfo.enabledLayerCount = 0;
+		if (enableValidationLayers) 
+		{
+			createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+			createInfo.ppEnabledLayerNames = validationLayers.data();
+		}
+		else 
+		{
+			createInfo.enabledLayerCount = 0;
+		}
 
 		VkResult result = vkCreateInstance(&createInfo, nullptr, &instance);
 		if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
