@@ -50,6 +50,8 @@ private:
 	VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
 	VkDebugUtilsMessengerEXT debugMessenger;
 
+	VkQueue graphicsQueue;
+
 	const int WIDTH = 800;
 	const int HEIGHT = 600;
 
