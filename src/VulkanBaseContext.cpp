@@ -7,6 +7,7 @@
 #include <cstring>
 
 
+
 void VulkanBaseContext::run()
 {
 	initWindow();
@@ -20,6 +21,8 @@ void VulkanBaseContext::initVulkan()
 	createInstance();
 
 	setupDebugMessenger();
+	pickPhysicalDevice();
+	createLogicalDevice();
 }
 
 void VulkanBaseContext::initWindow()
@@ -119,6 +122,10 @@ void VulkanBaseContext::mainLoop()
 	}
 }
 
+void VulkanBaseContext::createLogicalDevice()
+{
+}
+
 void VulkanBaseContext::cleanup()
 {
 	//vkSubmitDebugUtilsMessageEXT(instance, VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT, VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT, nullptr);
@@ -189,8 +196,10 @@ bool VulkanBaseContext::isDeviceSuitable(VkPhysicalDevice device)
 	vkGetPhysicalDeviceProperties(device, &deviceProperties);
 	vkGetPhysicalDeviceFeatures(device, &deviceFeatures);
 
+	QueueFamilyIndices indices = findQueueFamilies(device);
+
 	return deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU &&
-		deviceFeatures.geometryShader;
+		deviceFeatures.geometryShader && indices.isComplete();
 }
 
 VKAPI_ATTR VkBool32 VKAPI_CALL VulkanBaseContext::debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT * pCallbackData, void * pUserData)
@@ -217,4 +226,26 @@ void VulkanBaseContext::DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDeb
 	if (func != nullptr) {
 		func(instance, debugMessenger, pAllocator);
 	}
+}
+
+QueueFamilyIndices VulkanBaseContext::findQueueFamilies(VkPhysicalDevice device)
+{
+	QueueFamilyIndices indices;
+
+	uint32_t queueFamilyCount = 0;
+	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
+
+	std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
+
+	int i = 0;
+	for (const auto& queueFamily : queueFamilies) {
+		if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+			indices.graphicsFamily = i;
+		}
+
+		i++;
+	}
+
+	return indices;
 }

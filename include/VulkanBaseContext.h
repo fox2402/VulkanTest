@@ -3,7 +3,7 @@
 #include <GLFW/glfw3.h>
 
 #include <vulkan/vulkan.h>
-
+#include <optional>
 #include <vector>
 
 
@@ -30,6 +30,13 @@ namespace
 	}
 
 }
+
+struct QueueFamilyIndices {
+	std::optional<uint32_t> graphicsFamily;
+
+	bool isComplete() { return graphicsFamily.has_value(); }
+};
+
 class VulkanBaseContext
 {
 public:
@@ -39,6 +46,7 @@ private:
 	GLFWwindow* window;
 
 	VkInstance instance;
+	VkDevice device;
 	VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
 	VkDebugUtilsMessengerEXT debugMessenger;
 
@@ -64,14 +72,14 @@ private:
 	void setupDebugMessenger();
 	void pickPhysicalDevice();
 	void mainLoop();
+	void createLogicalDevice();
 	void cleanup();
 
 	void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
 	std::vector<const char*> getRequiredExtensions();
 	bool checkValidationLayerSupport();
 	bool isDeviceSuitable(VkPhysicalDevice device);
-
-
+	QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
 
 	static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 		VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
