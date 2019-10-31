@@ -12,10 +12,10 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(libs/glfw)
 
 set(VTEST_SRC)
-set(VTRIANGLE_SRC)
+set(VTRIANGLE_SRC src/VulkanBaseContext.cpp)
 
 add_executable(vtest src/main.cpp)
-add_executable(vtriangle src/HelloTriangleApp.cpp)
+add_executable(vtriangle src/HelloTriangleApp.cpp ${VTRIANGLE_SRC})
 
 target_include_directories(vtest PRIVATE include)
 target_include_directories(vtriangle PRIVATE include)

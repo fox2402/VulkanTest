@@ -5,11 +5,7 @@
 #include <vulkan/vulkan.h>
 
 #include <vector>
-#include <iostream>
-#include <stdexcept>
-#include <functional>
-#include <cstdlib>
-#include <cstring>
+
 
 namespace
 {
