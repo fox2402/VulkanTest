@@ -53,6 +53,8 @@ private:
 
 	VkSurfaceKHR surface;
 	VkQueue graphicsQueue;
+	VkQueue presentQueue;
+
 
 	const int WIDTH = 800;
 	const int HEIGHT = 600;
