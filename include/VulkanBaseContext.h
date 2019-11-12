@@ -33,6 +33,7 @@ namespace
 
 struct QueueFamilyIndices {
 	std::optional<uint32_t> graphicsFamily;
+	std::optional<uint32_t> presentFamily;
 
 	bool isComplete() { return graphicsFamily.has_value(); }
 };
@@ -50,6 +51,7 @@ private:
 	VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
 	VkDebugUtilsMessengerEXT debugMessenger;
 
+	VkSurfaceKHR surface;
 	VkQueue graphicsQueue;
 
 	const int WIDTH = 800;
@@ -75,6 +77,7 @@ private:
 	void pickPhysicalDevice();
 	void mainLoop();
 	void createLogicalDevice();
+	void createSurface();
 	void cleanup();
 
 	void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
