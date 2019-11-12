@@ -1,3 +1,9 @@
 Requires GLM, GLFW3 and Vulkan (Duh)
 
-There is nothing to set it for you, you're on you own. (CMake might come at some point)
+CMake is working, at least windows and the version of arch I was using
+
+Important stuff:
+ - You need a graphic card compatible with Vulkan (makes sense right?)
+ - you need Vulkan installed and have the libs in your path
+ - GLFW3 and GLM are in submodule, pull them before building (might be better if you want things to actually work)
+ - It's directly following the tutorial and some things might be different here and there
