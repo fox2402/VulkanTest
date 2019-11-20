@@ -62,8 +62,8 @@ private:
 	VkQueue presentQueue;
 
 
-	const int WIDTH = 800;
-	const int HEIGHT = 600;
+	const uint32_t WIDTH = 800;
+	const uint32_t HEIGHT = 600;
 
 	const std::vector<const char*> validationLayers = {
 		"VK_LAYER_KHRONOS_validation"
@@ -90,6 +90,7 @@ private:
 	void mainLoop();
 	void createLogicalDevice();
 	void createSurface();
+	void createSwapChain();
 	void cleanup();
 
 	void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
@@ -111,5 +112,9 @@ private:
 	SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
 
 	void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
+
+	VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
+	VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
+	VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
 
 };
