@@ -476,3 +476,8 @@ void VulkanBaseContext::createImageViews()
 	}
 
 }
+
+void VulkanBaseContext::createGraphicsPipeline()
+{
+
+}

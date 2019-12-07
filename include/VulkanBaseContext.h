@@ -96,6 +96,7 @@ private:
 	void createSurface();
 	void createSwapChain();
 	void createImageViews();
+	void createGraphicsPipeline();
 	void cleanup();
 
 	void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
