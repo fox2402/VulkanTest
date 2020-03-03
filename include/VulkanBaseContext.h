@@ -65,7 +65,10 @@ private:
 	VkFormat swapChainImageFormat;
 	VkExtent2D swapChainExtent;
 	std::vector<VkImageView> swapChainImageViews;
+	VkRenderPass renderPass;
 	VkPipelineLayout pipelineLayout;
+	VkPipeline graphicsPipeline;
+
 
 	const uint32_t WIDTH = 800;
 	const uint32_t HEIGHT = 600;
@@ -97,6 +100,7 @@ private:
 	void createSurface();
 	void createSwapChain();
 	void createImageViews();
+	void createRenderPass();
 	void createGraphicsPipeline();
 	
 	void cleanup();
