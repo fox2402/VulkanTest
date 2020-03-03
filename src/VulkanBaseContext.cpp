@@ -12,9 +12,17 @@
 
 namespace
 {
+	inline std::string separator()
+	{
+#ifdef _WIN32
+		return "\\";
+#else
+		return "/";
+#endif
+	}
+
 	static std::vector<char> readFile(const std::string& filename) {
 		std::ifstream file(filename, std::ios::ate | std::ios::binary);
-
 		if (!file.is_open()) {
 			throw std::runtime_error("failed to open file!");
 		}
@@ -45,6 +53,7 @@ void VulkanBaseContext::initVulkan()
 	createSurface();
 	pickPhysicalDevice();
 	createLogicalDevice();
+	createSwapChain();
 	createImageViews();
 	createRenderPass();
 	createGraphicsPipeline();
@@ -505,8 +514,8 @@ void VulkanBaseContext::createImageViews()
 
 void VulkanBaseContext::createGraphicsPipeline()
 {
-	auto vertShaderCode = readFile("shaders/vert.spv");
-	auto fragShaderCode = readFile("shaders/frag.spv");
+	auto vertShaderCode = readFile("shaders" + separator() + "vert.spv");
+	auto fragShaderCode = readFile("shaders" + separator() + "frag.spv");
 
 	VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
 	VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
