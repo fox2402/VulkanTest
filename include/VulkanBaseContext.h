@@ -69,6 +69,8 @@ private:
 	VkPipelineLayout pipelineLayout;
 	VkPipeline graphicsPipeline;
 
+	std::vector<VkFramebuffer> swapChainFramebuffers;
+
 
 	const uint32_t WIDTH = 800;
 	const uint32_t HEIGHT = 600;
@@ -102,7 +104,7 @@ private:
 	void createImageViews();
 	void createRenderPass();
 	void createGraphicsPipeline();
-	
+	void createFramebuffers();
 	void cleanup();
 
 	void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
