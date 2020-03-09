@@ -68,6 +68,8 @@ private:
 	VkRenderPass renderPass;
 	VkPipelineLayout pipelineLayout;
 	VkPipeline graphicsPipeline;
+	VkCommandPool commandPool;
+	std::vector<VkCommandBuffer> commandBuffers;
 
 	std::vector<VkFramebuffer> swapChainFramebuffers;
 
@@ -105,7 +107,10 @@ private:
 	void createRenderPass();
 	void createGraphicsPipeline();
 	void createFramebuffers();
+	void createCommandPool();
+	void createCommandBuffer();
 	void cleanup();
+
 
 	void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
 	std::vector<const char*> getRequiredExtensions();
