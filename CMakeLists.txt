@@ -8,6 +8,8 @@ project(VulkanTest)
 
 find_package(Vulkan REQUIRED)
 
+add_definitions(-DSHADER_PATH="${CMAKE_CURRENT_SOURCE_DIR}/shaders")
+
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)

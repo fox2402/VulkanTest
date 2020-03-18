@@ -49,6 +49,12 @@ class VulkanBaseContext
 public:
 	void run();
 
+	std::string ShaderPath()
+	{
+		return SHADER_PATH;
+	}
+
+
 private:
 	GLFWwindow* window;
 
