@@ -331,8 +331,9 @@ bool VulkanBaseContext::isDeviceSuitable(VkPhysicalDevice device)
 		swapChainAdequate = !swapChainSupport.formats.empty() && !swapChainSupport.presentModes.empty();
 	}
 
-	return deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU &&
-		deviceFeatures.geometryShader && indices.isComplete() && extensionSupport && swapChainAdequate;
+	return (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU || 
+		deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU)
+		&& deviceFeatures.geometryShader && indices.isComplete() && extensionSupport && swapChainAdequate;
 
 }
 
