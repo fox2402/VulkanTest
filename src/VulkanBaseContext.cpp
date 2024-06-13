@@ -61,6 +61,7 @@ void VulkanBaseContext::initVulkan()
 	createCommandPool();
 	createCommandBuffers();
 	createSemaphores();
+	createFence();
 }
 
 void VulkanBaseContext::initWindow()
@@ -218,6 +219,7 @@ void VulkanBaseContext::createSurface()
 
 void VulkanBaseContext::cleanup()
 {
+	vkDestroyFence(device, inFlightFence, nullptr);
 	vkDestroySemaphore(device, renderFinishedSemaphore, nullptr);
 	vkDestroySemaphore(device, imageAvailableSemaphore, nullptr);
 	//vkSubmitDebugUtilsMessageEXT(instance, VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT, VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT, nullptr);
@@ -802,6 +804,10 @@ void VulkanBaseContext::createCommandBuffers()
 
 void VulkanBaseContext::drawFrame()
 {
+	vkWaitForFences(device, 1, &inFlightFence, VK_TRUE, UINT64_MAX);
+
+	vkResetFences(device, 1, &inFlightFence);
+
 	uint32_t imageIndex;
 	vkAcquireNextImageKHR(device, swapChain, UINT64_MAX, imageAvailableSemaphore, VK_NULL_HANDLE, &imageIndex);
 
@@ -821,7 +827,7 @@ void VulkanBaseContext::drawFrame()
 	submitInfo.signalSemaphoreCount = 1;
 	submitInfo.pSignalSemaphores = signalSemaphores;
 
-	if (vkQueueSubmit(graphicsQueue, 1, &submitInfo, VK_NULL_HANDLE) != VK_SUCCESS) {
+	if (vkQueueSubmit(graphicsQueue, 1, &submitInfo, inFlightFence) != VK_SUCCESS) {
 		throw std::runtime_error("failed to submit draw command buffer!");
 	}
 
@@ -851,4 +857,16 @@ void VulkanBaseContext::createSemaphores()
 
 		throw std::runtime_error("failed to create semaphores!");
 	}
+}
+
+void VulkanBaseContext::createFence()
+{
+	VkFenceCreateInfo fenceInfo{};
+	fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+	fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
+	if ( vkCreateFence(device, &fenceInfo, nullptr, &inFlightFence) != VK_SUCCESS) 
+	{
+		throw std::runtime_error("failed to create fence!");
+	}
+
 }

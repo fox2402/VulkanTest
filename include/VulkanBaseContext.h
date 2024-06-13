@@ -146,7 +146,9 @@ private:
 
 	VkSemaphore imageAvailableSemaphore;
 	VkSemaphore renderFinishedSemaphore;
+	VkFence inFlightFence;
 
 	void drawFrame();
 	void createSemaphores();
+	void createFence();
 };
