@@ -54,7 +54,7 @@ public:
 		return SHADER_PATH;
 	}
 
-
+	const int MAX_FRAMES_IN_FLIGHT = 2;
 private:
 	GLFWwindow* window;
 
@@ -82,6 +82,8 @@ private:
 
 	const uint32_t WIDTH = 800;
 	const uint32_t HEIGHT = 600;
+
+	uint32_t currentFrame = 0;
 
 	const std::vector<const char*> validationLayers = {
 		"VK_LAYER_KHRONOS_validation"
@@ -144,9 +146,9 @@ private:
 	VkShaderModule createShaderModule(const std::vector<char>& code);
 
 
-	VkSemaphore imageAvailableSemaphore;
-	VkSemaphore renderFinishedSemaphore;
-	VkFence inFlightFence;
+	std::vector<VkSemaphore> imageAvailableSemaphores;
+	std::vector<VkSemaphore> renderFinishedSemaphores;
+	std::vector<VkFence> inFlightFences;
 
 	void drawFrame();
 	void createSemaphores();
