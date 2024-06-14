@@ -119,6 +119,7 @@ private:
 	void createCommandBuffers();
 	void cleanup();
 
+	void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
 
 	void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
 	std::vector<const char*> getRequiredExtensions();
@@ -150,7 +151,16 @@ private:
 	std::vector<VkSemaphore> renderFinishedSemaphores;
 	std::vector<VkFence> inFlightFences;
 
+
 	void drawFrame();
 	void createSemaphores();
 	void createFence();
+
+	void cleanupSwapChain();
+
+	void recreateSwapChain();
+
+	bool framebufferResized = false;
+public:
+	static void framebufferResizeCallback(GLFWwindow* window, int width, int height);
 };
