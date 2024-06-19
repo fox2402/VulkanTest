@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.9)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")
 
 if(MSVC)
@@ -7,7 +7,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++20")
 endif(MSVC)
 
 project(VulkanTest)
-
 find_package(Vulkan REQUIRED)
 
 add_definitions(-DSHADER_PATH="${CMAKE_CURRENT_SOURCE_DIR}/shaders")
