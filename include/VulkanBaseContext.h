@@ -53,7 +53,7 @@ struct UniformBufferObject {
 };
 
 struct Vertex {
-    glm::vec2 pos;
+    glm::vec3 pos;
     glm::vec3 color;
 
 	static VkVertexInputBindingDescription getBindingDescription() 
@@ -71,13 +71,14 @@ struct Vertex {
 		std::array<VkVertexInputAttributeDescription, 2> attributeDescriptions{};
 		attributeDescriptions[0].binding = 0;
 		attributeDescriptions[0].location = 0;
-		attributeDescriptions[0].format = VK_FORMAT_R32G32_SFLOAT;
+		attributeDescriptions[0].format = VK_FORMAT_R32G32B32_SFLOAT;
 		attributeDescriptions[0].offset = offsetof(Vertex, pos);
 
 		attributeDescriptions[1].binding = 0;
 		attributeDescriptions[1].location = 1;
 		attributeDescriptions[1].format = VK_FORMAT_R32G32B32_SFLOAT;
 		attributeDescriptions[1].offset = offsetof(Vertex, color);
+
 		return attributeDescriptions;
 	}
 };
@@ -94,14 +95,35 @@ public:
 
 	const int MAX_FRAMES_IN_FLIGHT = 2;
 	const std::vector<Vertex> vertices = {
-    {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
-    {{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
-    {{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
-    {{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
+    {{-0.5f, -0.5f, -0.5}, {1.0f, 0.0f, 0.0f}},
+    {{0.5f, -0.5f, -0.5}, {0.0f, 1.0f, 0.0f}},
+    {{0.5f, 0.5f, -0.5}, {0.0f, 0.0f, 1.0f}},
+    {{-0.5f, 0.5f, -0.5}, {1.0f, 1.0f, 1.0f}},
+	{{-0.5f, -0.5f, 0.5}, {1.0f, 1.0f, 0.0f}},
+    {{0.5f, -0.5f, 0.5}, {0.0f, 1.0f, 1.0f}},
+    {{0.5f, 0.5f, 0.5}, {1.0f, 0.0f, 1.0f}},
+    {{-0.5f, 0.5f, 0.5}, {1.0f, 1.0f, 1.0f}},
+
 	};
 	const std::vector<uint16_t> indices = {
-    0, 1, 2, 2, 3, 0
+    0, 1, 2, 2, 3, 0, 0, 4, 7, 7, 3, 0, 0, 4, 5, 5, 1, 0, 1, 5, 6, 6, 2, 1, 4, 5, 6, 6, 7, 4, 3, 7, 6, 6, 2, 3
 	};
+	/*const std::vector<Vertex> vertices = {
+    {{-0.5f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}},
+    {{0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}},
+    {{0.5f, 0.5f, 0.0f}, {0.0f, 0.0f, 1.0f}},
+    {{-0.5f, 0.5f, 0.0f}, {1.0f, 1.0f, 1.0f}},
+
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+    {{0.5f, -0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
+    {{0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, 1.0f}},
+    {{-0.5f, 0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}}
+	};
+
+	const std::vector<uint16_t> indices = {
+		0, 1, 2, 2, 3, 0,
+		4, 5, 6, 6, 7, 4
+	};*/
 private:
 	GLFWwindow* window;
 

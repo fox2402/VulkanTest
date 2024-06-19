@@ -254,7 +254,6 @@ void VulkanBaseContext::cleanup()
 	vkDestroyRenderPass(device, renderPass, nullptr);
 
 	cleanupSwapChain();
-	vkDestroyDescriptorSetLayout(device, descriptorSetLayout, nullptr);
 
 	vkDestroyBuffer(device, indexBuffer, nullptr);
     vkFreeMemory(device, indexBufferMemory, nullptr);
