@@ -1,5 +1,6 @@
 #pragma once
 #define GLFW_INCLUDE_VULKAN
+#define GLM_FORCE_RADIANS
 #include <GLFW/glfw3.h>
 
 #include <vulkan/vulkan.h>
@@ -43,6 +44,12 @@ struct QueueFamilyIndices {
 	std::optional<uint32_t> presentFamily;
 
 	bool isComplete() { return graphicsFamily.has_value(); }
+};
+
+struct UniformBufferObject {
+    glm::mat4 model;
+    glm::mat4 view;
+    glm::mat4 proj;
 };
 
 struct Vertex {
@@ -112,6 +119,7 @@ private:
 	VkExtent2D swapChainExtent;
 	std::vector<VkImageView> swapChainImageViews;
 	VkRenderPass renderPass;
+	VkDescriptorSetLayout descriptorSetLayout;
 	VkPipelineLayout pipelineLayout;
 	VkPipeline graphicsPipeline;
 	VkCommandPool commandPool;
@@ -201,7 +209,7 @@ private:
 
 	void createVertexBuffer();
 	void createIndexBuffer();
-	
+
 	uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 	void drawFrame();
 	void createSemaphores();
@@ -212,6 +220,21 @@ private:
 	void recreateSwapChain();
 
 	bool framebufferResized = false;
+
 public:
 	static void framebufferResizeCallback(GLFWwindow* window, int width, int height);
+
+private:
+	void createDescriptorSetLayout();
+	void createUniformBuffer();
+	std::vector<VkBuffer> uniformBuffers;
+	std::vector<VkDeviceMemory> uniformBuffersMemory;
+	std::vector<void*> uniformBuffersMapped;
+
+	void updateUniformBuffer(uint32_t currentFrame);
+
+	void createDescriptorPool();
+	VkDescriptorPool descriptorPool;
+	void createDescriptorSets();
+	std::vector<VkDescriptorSet> descriptorSets;
 };
