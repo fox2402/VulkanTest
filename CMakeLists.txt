@@ -25,8 +25,8 @@ set(VTRIANGLE_SRC src/VulkanBaseContext.cpp)
 add_executable(vtest src/main.cpp)
 add_executable(vtriangle src/HelloTriangleApp.cpp ${VTRIANGLE_SRC})
 
-target_include_directories(vtest PRIVATE include)
-target_include_directories(vtriangle PRIVATE include)
+target_include_directories(vtest PRIVATE include libs/stb)
+target_include_directories(vtriangle PRIVATE include libs/stb)
 
 target_compile_definitions(vtest PRIVATE VK_USE_PLATFORM_WIN32_KHR)
 target_include_directories(vtest PRIVATE Vulkan::Vulkan)

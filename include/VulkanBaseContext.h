@@ -3,6 +3,9 @@
 #define GLM_FORCE_RADIANS
 #include <GLFW/glfw3.h>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
+
 #include <vulkan/vulkan.h>
 #include <optional>
 #include <vector>
@@ -259,4 +262,9 @@ private:
 	VkDescriptorPool descriptorPool;
 	void createDescriptorSets();
 	std::vector<VkDescriptorSet> descriptorSets;
+
+	void createTextureImage();
+	VkImage textureImage;
+	VkDeviceMemory textureImageMemory;
+	void createImage(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory);
 };
